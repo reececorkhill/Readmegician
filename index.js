@@ -1,7 +1,10 @@
-import fs from "fs";
-import path from 'path';
+import fs, { writeFileSync } from "fs";
+import path from "path";
 import inquirer from "inquirer";
+import util from "util";
 import generateMarkdown from "./utils/generateMarkdown.js";
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 // array of questions for user
 const questions = [
@@ -17,10 +20,9 @@ const questions = [
 ];
 
 // function to take user inputs
-var userInput = (questions) => {
+const userInput = (questions) => {
     console.log("Welcome to Readmegician - Let's start the magic!")
-    inquirer
-    .prompt([
+    return inquirer.prompt([
       {    
         type: 'input',
         message: questions[0],
@@ -44,12 +46,12 @@ var userInput = (questions) => {
       {    
         type: 'input',
         message: questions[4],
-        name: 'contribution',
+        name: 'contributing',
       },
       {    
         type: 'input',
         message: questions[5],
-        name: 'test',
+        name: 'tests',
       },
       {    
         type: 'list',
@@ -80,36 +82,42 @@ var userInput = (questions) => {
         type: 'input',
         message: questions[8],
         name: 'email',
-      }
-    ])
-    .then((answers) => {
-      console.log(answers.title)
-      console.log(answers.description)
-      console.log(answers.installation)
-      console.log(answers.usage)
-      console.log(answers.contribution)
-      console.log(answers.test)
-      console.log(answers.license)
-      console.log(answers.github)
-      console.log(answers.email)
-    })
-    .catch((error) => {
-      if (error.isTtyError) {
-        console.log(error)
-      } else {
-        console.log(error)
-      }
-    });
-}
-userInput(questions);
+      },
+    ]);
+};
+
 // function to write README file
-function writeToFile(fileName, data) {
-}
+const writeToFile = (answers) => 
+`
+# ${answers.title}
+     
+## Description
+${answers.description}
+     
+## Table of Contents
+- [Description](#description)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
 
-// function to initialize program
-function init() {
+## Installation
+${answers.installation}
+     
+## Usage
+${answers.usage}
+     
+## License
+${answers.license}
+     
+## Contributing
+${answers.contributing}
+     
+## Tests
+${answers.tests}`;
 
-}
-
-// function call to initialize program
-init();
+userInput(questions)
+    .then((answers) => writeFileAsync('README.md', writeToFile(answers)))
+    .then(() => console.log('README Successfully Generated!'))
+    .catch((err) => console.error(err));
