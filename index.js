@@ -15,6 +15,7 @@ const questions = [
     "Contribution Guidelines", 
     "Test Instructions", 
     "Choose License", 
+    "Choose Badge",
     "Enter GitHub Username", 
     "Enter Email Address"
 ];
@@ -73,14 +74,34 @@ const userInput = (questions) => {
         ],
         name: 'license',
       },
-      {    
-        type: 'input',
+      {
+        type: 'list',
         message: questions[7],
-        name: 'github',
+        choices: [
+          'Apache_2.0-blue', 
+          'GPLv3-blue', 
+          'MIT-yellow', 
+          'BSD_2--Clause-orange', 
+          'BSD_3--Clause-blue', 
+          'Boost_1.0-lightblue', 
+          'CC0_1.0-lightgrey', 
+          'EPL_2.0-red',
+          'AGPL_v3-blue',
+          'GPLv2-blue',
+          'LGPL_v2.1-blue',
+          'MPL_2.0-brightgreen',
+          'Unlicense-blue'
+        ],
+        name: 'badge',
       },
       {    
         type: 'input',
         message: questions[8],
+        name: 'github',
+      },
+      {    
+        type: 'input',
+        message: questions[9],
         name: 'email',
       },
     ]);
@@ -109,7 +130,10 @@ ${answers.installation}
 ${answers.usage}
      
 ## License
-${answers.license}
+
+[![License](https://img.shields.io/badge/License-${answers.badge})](https://opensource.org/licenses/${answers.license})
+
+This application is covered by the ${answers.license} License.
      
 ## Contributing
 ${answers.contributing}
