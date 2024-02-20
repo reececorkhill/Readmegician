@@ -1,8 +1,6 @@
 import fs, { writeFileSync } from "fs";
-import path from "path";
 import inquirer from "inquirer";
 import util from "util";
-import generateMarkdown from "./utils/generateMarkdown.js";
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
@@ -111,7 +109,9 @@ const userInput = (questions) => {
 const writeToFile = (answers) => 
 `
 # ${answers.title}
-     
+
+[![License](https://img.shields.io/badge/License-${answers.badge})](https://opensource.org/licenses/${answers.license})
+
 ## Description
 ${answers.description}
      
@@ -122,6 +122,7 @@ ${answers.description}
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
+- [Questions](#questions)
 
 ## Installation
 ${answers.installation}
@@ -131,15 +132,19 @@ ${answers.usage}
      
 ## License
 
-[![License](https://img.shields.io/badge/License-${answers.badge})](https://opensource.org/licenses/${answers.license})
-
 This application is covered by the ${answers.license} License.
      
 ## Contributing
 ${answers.contributing}
      
 ## Tests
-${answers.tests}`;
+${answers.tests}
+
+## questions
+
+For any questions relating to this project, please contact:
+
+<a href="https://github.com/${answers.github}">${answers.github}</a> | <a href="mailto:${answers.email}">${answers.email}</a>`;
 
 userInput(questions)
     .then((answers) => writeFileAsync('README.md', writeToFile(answers)))
