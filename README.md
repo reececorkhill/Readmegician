@@ -20,7 +20,9 @@ To install this application, you need to have Node.js Installed on your local ma
      
 ## Usage
 This project is open source and free for anyone to use.
-     
+
+<a href="https://bootcampspot.instructure.com/media_attachments_iframe/3230864?type=video&embedded=true&verifier=LSfeNCWxOnWqVkFnYc0ng8e08TFBoovUYxMULwU4">Walkthrough Video</a>
+
 ## License
 
 This application is covered by the MIT License.
